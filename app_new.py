@@ -763,5 +763,17 @@ def database_health():
         return jsonify({"status": "error", "database": str(exc)}), 503
 
 
+@app.route("/__health/env")
+def environment_health():
+    database_url = os.environ.get("DATABASE_URL")
+    secret_key = os.environ.get("SECRET_KEY")
+    return jsonify({
+        "status": "ok",
+        "database_url_set": bool(database_url),
+        "database_scheme": database_url.split(":", 1)[0] if database_url else None,
+        "secret_key_set": bool(secret_key),
+    })
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
