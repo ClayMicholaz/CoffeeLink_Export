@@ -12,15 +12,8 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret-key"
 database_url = os.environ.get("DATABASE_URL", "sqlite:///coffeelink.db")
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
-if database_url.startswith("postgresql://") and "sslmode=" not in database_url:
-    separator = "&" if "?" in database_url else "?"
-    database_url = f"{database_url}{separator}sslmode=require"
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "pool_pre_ping": True,
-    "pool_recycle": 280,
-}
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -700,8 +693,6 @@ def initialize_database():
         inspector = inspect(db.engine)
         with db.engine.begin() as connection:
             for table, columns in legacy_columns.items():
-                if not inspector.has_table(table):
-                    continue
                 existing = {column["name"] for column in inspector.get_columns(table)}
                 for column, column_type in columns.items():
                     if column not in existing:
@@ -740,39 +731,8 @@ def initialize_database():
                                  country="Denmark", email="buyer@example.com", phone="+45 0000 0000"))
             db.session.commit()
 
-@app.errorhandler(500)
-def internal_server_error(error):
-    import traceback
-    return jsonify({
-        "status": "error",
-        "error_type": type(error).__name__,
-        "error": str(error),
-        "traceback": traceback.format_exc(),
-    }), 500
 
-
-@app.route("/__health/db")
-def database_health():
-    try:
-        db.session.execute(text("SELECT 1"))
-        db.session.commit()
-        initialize_database()
-        return jsonify({"status": "ok", "database": "connected"})
-    except Exception as exc:
-        db.session.rollback()
-        return jsonify({"status": "error", "database": str(exc)}), 503
-
-
-@app.route("/__health/env")
-def environment_health():
-    database_url = os.environ.get("DATABASE_URL")
-    secret_key = os.environ.get("SECRET_KEY")
-    return jsonify({
-        "status": "ok",
-        "database_url_set": bool(database_url),
-        "database_scheme": database_url.split(":", 1)[0] if database_url else None,
-        "secret_key_set": bool(secret_key),
-    })
+initialize_database()
 
 
 if __name__ == "__main__":
