@@ -1,18 +1,26 @@
-try:
-    from app import app as flask_app
-except Exception as exc:
-    from flask import Flask, jsonify
+import os
 
-    flask_app = Flask(__name__)
-
-    @flask_app.route("/", defaults={"path": ""})
-    @flask_app.route("/<path:path>")
-    def startup_error(path):
-        return jsonify({
-            "status": "error",
-            "error_type": type(exc).__name__,
-            "error": str(exc),
-        }), 500
+from flask import Flask, jsonify
 
 
-app = flask_app
+app = Flask(__name__)
+
+
+@app.route("/")
+def health_root():
+    return jsonify({
+        "status": "ok",
+        "message": "Vercel Python function is running",
+    })
+
+
+@app.route("/__health/env")
+def health_env():
+    database_url = os.environ.get("DATABASE_URL")
+    secret_key = os.environ.get("SECRET_KEY")
+    return jsonify({
+        "status": "ok",
+        "database_url_set": bool(database_url),
+        "database_scheme": database_url.split(":", 1)[0] if database_url else None,
+        "secret_key_set": bool(secret_key),
+    })
