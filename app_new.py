@@ -12,8 +12,15 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret-key"
 database_url = os.environ.get("DATABASE_URL", "sqlite:///coffeelink.db")
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
+if database_url.startswith("postgresql://") and "sslmode=" not in database_url:
+    separator = "&" if "?" in database_url else "?"
+    database_url = f"{database_url}{separator}sslmode=require"
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_pre_ping": True,
+    "pool_recycle": 280,
+}
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -693,6 +700,8 @@ def initialize_database():
         inspector = inspect(db.engine)
         with db.engine.begin() as connection:
             for table, columns in legacy_columns.items():
+                if not inspector.has_table(table):
+                    continue
                 existing = {column["name"] for column in inspector.get_columns(table)}
                 for column, column_type in columns.items():
                     if column not in existing:
