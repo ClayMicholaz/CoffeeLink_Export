@@ -740,26 +740,15 @@ def initialize_database():
                                  country="Denmark", email="buyer@example.com", phone="+45 0000 0000"))
             db.session.commit()
 
-database_initialized = False
-
-
-@app.before_request
-def ensure_database_initialized():
-    global database_initialized
-    if request.endpoint == "database_health":
-        return None
-    if database_initialized:
-        return None
-    try:
-        initialize_database()
-        database_initialized = True
-    except Exception as exc:
-        db.session.rollback()
-        return jsonify({
-            "status": "error",
-            "database": str(exc),
-        }), 503
-    return None
+@app.errorhandler(500)
+def internal_server_error(error):
+    import traceback
+    return jsonify({
+        "status": "error",
+        "error_type": type(error).__name__,
+        "error": str(error),
+        "traceback": traceback.format_exc(),
+    }), 500
 
 
 @app.route("/__health/db")
