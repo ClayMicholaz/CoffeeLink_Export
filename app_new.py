@@ -10,6 +10,8 @@ from sqlalchemy import or_, func, desc, inspect, text
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "change-this-secret-key")
 database_url = os.environ.get("DATABASE_URL", "sqlite:///coffeelink.db")
+if os.environ.get("VERCEL") and not os.environ.get("DATABASE_URL"):
+    database_url = "sqlite:////tmp/coffeelink.db"
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
@@ -677,6 +679,7 @@ def not_found(_):
 
 def initialize_database():
     with app.app_context():
+        db.create_all()
         legacy_columns = {
             "farmer": {"description": "TEXT"},
             "coffee_product": {
@@ -699,7 +702,6 @@ def initialize_database():
                         connection.execute(text(
                             f"ALTER TABLE {table} ADD COLUMN {column} {column_type}"
                         ))
-        db.create_all()
         if not User.query.filter_by(email="admin@coffeelink.test").first():
             admin = User(name="Administrator", email="admin@coffeelink.test", role="admin")
             admin.set_password("admin123")

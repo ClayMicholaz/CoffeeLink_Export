@@ -49,6 +49,15 @@ Ganti password dan `SECRET_KEY` sebelum aplikasi dipublikasikan.
 
 Catatan: SQLite lokal cocok untuk demonstrasi. Untuk hosting, gunakan PostgreSQL persisten karena filesystem layanan web gratis dapat bersifat sementara.
 
+## Deploy ke Vercel
+1. Push repository ini ke GitHub.
+2. Di Vercel, pilih **Add New > Project**, impor repository, dan pertahankan pengaturan framework sebagai **Other**.
+3. Tidak perlu menambahkan `DATABASE_URL`; deployment awal otomatis memakai SQLite sementara di `/tmp`.
+4. Opsional: tambahkan `SECRET_KEY` sebagai string acak yang kuat.
+5. Deploy. Konfigurasi `vercel.json` mengarahkan semua request ke Flask melalui `api/index.py`.
+
+SQLite Vercel bersifat sementara dan dapat hilang saat instance/serverless function berganti atau restart. Untuk data yang permanen, baru kemudian gunakan PostgreSQL melalui environment variable `DATABASE_URL`.
+
 ## Struktur data
 - User: akun dan role.
 - Farmer: master petani.
