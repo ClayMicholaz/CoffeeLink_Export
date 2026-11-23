@@ -1,0 +1,335 @@
+{% extends "base_new.html" %}
+{% block title %}Dashboard · CoffeeLink{% endblock %}{% block crumb %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <span class="eyebrow">BUSINESS OVERVIEW</span>
+    <h1>Dashboard</h1>
+    <p class="text-muted">Monitor your coffee trading operations and key metrics at a glance.</p>
+  </div>
+  <div class="date-pill">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    <span id="currentDate"></span>
+  </div>
+</div>
+
+<!-- Key Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" role="region" aria-label="Key metrics">
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Total Farmers</p>
+          <p class="text-3xl font-bold text-primary mt-1">{{ stats.farmers }}</p>
+          <p class="text-xs text-muted mt-1">Registered coffee farmers</p>
+        </div>
+        <div class="stat-icon bg-green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Active Buyers</p>
+          <p class="text-3xl font-bold text-primary mt-1">{{ stats.buyers }}</p>
+          <p class="text-xs text-muted mt-1">International buyers</p>
+        </div>
+        <div class="stat-icon bg-blue">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Coffee Products</p>
+          <p class="text-3xl font-bold text-primary mt-1">{{ stats.products }}</p>
+          <p class="text-xs text-muted mt-1">Unique products listed</p>
+        </div>
+        <div class="stat-icon bg-amber">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Export Orders</p>
+          <p class="text-3xl font-bold text-primary mt-1">{{ stats.orders }}</p>
+          <p class="text-xs text-muted mt-1">Total transactions</p>
+        </div>
+        <div class="stat-icon bg-purple">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- Revenue & Volume Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Total Revenue</p>
+          <p class="text-3xl font-bold text-primary mt-1">${{ "{:,.2f}".format(stats.revenue) }}</p>
+          <p class="text-xs text-muted mt-1">All-time export value</p>
+        </div>
+        <div class="stat-icon bg-success">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="card stat-card">
+    <div class="card-body">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="text-xs font-semibold text-muted uppercase tracking-wide">Total Volume</p>
+          <p class="text-3xl font-bold text-primary mt-1">{{ "{:,.0f}".format(stats.total_kg) }} kg</p>
+          <p class="text-xs text-muted mt-1">Coffee shipped</p>
+        </div>
+        <div class="stat-icon bg-olive">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <circle cx="8" cy="16" r="1"/>
+            <circle cx="18" cy="16" r="1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- Recent Orders & Quick Actions -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+  <section class="card lg:col-span-2" aria-labelledby="recentOrdersTitle">
+    <div class="card-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div>
+        <h2 id="recentOrdersTitle" class="text-lg font-bold">Recent Export Orders</h2>
+        <p class="text-sm text-muted">Latest transactions requiring attention</p>
+      </div>
+      <a href="{{ url_for('transactions') }}" class="btn btn-sm btn-ghost">View all orders →</a>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-container">
+        <table class="table" role="table">
+          <thead>
+            <tr>
+              <th scope="col">Order Code</th>
+              <th scope="col">Buyer</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Value</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in recent_orders %}
+            <tr>
+              <td><strong>{{ o.order_code }}</strong></td>
+              <td>{{ o.buyer.company }}</td>
+              <td>{{ o.product.name }}</td>
+              <td>{{ "{:,.0f}".format(o.quantity_kg) }} kg</td>
+              <td>{{ o.currency }} {{ "{:,.2f}".format(o.total_value) }}</td>
+              <td>
+                {% set status_class = 'badge-secondary' %}
+                {% if o.status == 'Selesai' %}{% set status_class = 'badge-success' %}
+                {% elif o.status == 'Diproses' %}{% set status_class = 'badge-accent' %}
+                {% elif o.status == 'Dibatalkan' %}{% set status_class = 'badge-error' %}
+                {% elif o.status == 'Siap dikirim' %}{% set status_class = 'badge-warning' %}
+                {% endif %}
+                <span class="badge {{ status_class }}">{{ o.status }}</span>
+              </td>
+              <td>
+                <a href="{{ url_for('transactions') }}" class="btn btn-ghost btn-sm btn-icon" aria-label="View order {{ o.order_code }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </a>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="7" class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="mx-auto mb-3 text-muted" aria-hidden="true">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+                <p class="text-muted">No export orders yet</p>
+                <a href="{{ url_for('transaction_new') }}" class="btn btn-primary btn-sm mt-3">Create first order</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="quickActionsTitle">
+    <div class="card-header">
+      <h2 id="quickActionsTitle" class="text-lg font-bold">Quick Actions</h2>
+    </div>
+    <div class="card-body">
+      <div class="flex flex-col gap-3">
+        {% if current_user.role in ('admin', 'buyer') %}
+        <a href="{{ url_for('transaction_new') }}" class="btn btn-primary btn-block">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Create Export Order
+        </a>
+        {% endif %}
+        {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('master_form', kind='products') }}" class="btn btn-secondary btn-block">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+          Add Coffee Product
+        </a>
+        <a href="{{ url_for('master_form', kind='farmers') }}" class="btn btn-secondary btn-block">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Register Farmer
+        </a>
+        <a href="{{ url_for('shipment_new') }}" class="btn btn-secondary btn-block">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            <circle cx="8" cy="16" r="1"/>
+            <circle cx="18" cy="16" r="1"/>
+          </svg>
+          Create Shipment
+        </a>
+        <a href="{{ url_for('reports') }}" class="btn btn-outline btn-block">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          View Reports
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Low Stock Alerts -->
+{% if low_stock_products %}
+<div class="card mt-6 border-warning">
+  <div class="card-header bg-warning/5">
+    <div class="flex items-center gap-3">
+      <div class="stat-icon bg-warning">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="font-bold">Low Stock Alert</h3>
+        <p class="text-sm text-muted">Products below reorder threshold</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Origin</th>
+            <th scope="col">Current Stock</th>
+            <th scope="col">Price/kg</th>
+            <th scope="col">Farmer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in low_stock_products %}
+          <tr>
+            <td><strong>{{ p.name }}</strong></td>
+            <td>{{ p.origin }}</td>
+            <td><span class="badge badge-warning">{{ "{:,.0f}".format(p.stock_kg) }} kg</span></td>
+            <td>${{ "{:,.2f}".format(p.price_per_kg) }}</td>
+            <td>{{ p.farmer.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Update current date
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateEl = document.getElementById('currentDate');
+    if (dateEl) {
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      dateEl.textContent = new Date().toLocaleDateString('id-ID', options);
+    }
+
+    // Auto-dismiss flash messages
+    const flashContainer = document.getElementById('flashContainer');
+    if (flashContainer) {
+      const alerts = flashContainer.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        setTimeout(() => {
+          alert.style.opacity = '0';
+          alert.style.transform = 'translateY(-10px)';
+          setTimeout(() => alert.remove(), 300);
+        }, 5000);
+      });
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Form {{ cfg.title }} · CoffeeLink{% endblock %}{% block crumb %}Data Master / Form{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">DATA MASTER</div><h1>{{ 'Edit' if record else 'Tambah' }} {{ cfg.title }}</h1><p>Isi informasi dengan benar sebelum menyimpan.</p></div><a class="btn btn-outline-coffee" href="{{ url_for('master_list', kind=kind) }}">← Kembali</a></div>
+<div class="section-card form-card"><form method="post"><div class="form-grid">
+{% for field,label,typ in cfg.fields %}<div class="mb-3"><label class="form-label">{{ label }}</label>
+{% if typ == 'farmer' %}<select class="form-select" name="{{ field }}" required><option value="">Pilih petani</option>{% for f in farmers %}<option value="{{ f.id }}" {% if record and record.farmer_id == f.id %}selected{% endif %}>{{ f.name }} — {{ f.region }}</option>{% endfor %}</select>
+{% else %}<input class="form-control" type="{{ typ }}" step="any" name="{{ field }}" value="{{ record|attr(field) if record else '' }}" required>{% endif %}</div>{% endfor %}
+</div><div class="form-actions"><button class="btn btn-coffee">Simpan Data</button><a class="btn btn-light" href="{{ url_for('master_list', kind=kind) }}">Batal</a></div></form></div>
+{% endblock %}

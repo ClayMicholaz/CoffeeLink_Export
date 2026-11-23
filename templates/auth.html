@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block title %}{{ 'Daftar' if mode == 'register'
+else 'Login' }} · CoffeeLink{% endblock %} {% block auth_content %}
+<div class="auth-page">
+  <div class="auth-panel">
+    <div class="auth-brand">☕ CoffeeLink <span>EXPORT</span></div>
+    <div class="auth-kicker">INDONESIAN COFFEE, GLOBAL MARKET</div>
+    <h1>
+      {{ 'Buat akun baru' if mode == 'register' else 'Selamat datang kembali' }}
+    </h1>
+    <p class="text-muted">
+      {{ 'Daftar untuk mulai menggunakan CoffeeLink Export.' if mode ==
+      'register' else 'Masuk ke sistem manajemen ekspor kopi.' }}
+    </p>
+    <form method="post">
+      {% if mode == 'register' %}<label>Nama lengkap</label
+      ><input class="form-control mb-3" name="name" required />
+      <label>Daftar sebagai</label
+      ><select class="form-select mb-3" name="role">
+        <option value="buyer">Pembeli</option>
+        <option value="farmer">Petani</option></select
+      >{% endif %} <label>Email</label
+      ><input class="form-control mb-3" type="email" name="email" required />
+      <label>Password</label
+      ><input
+        class="form-control mb-4"
+        type="password"
+        name="password"
+        minlength="6"
+        required
+      />
+      <button class="btn btn-coffee w-100">
+        {{ 'Daftar' if mode == 'register' else 'Masuk ke Dashboard' }}
+      </button>
+    </form>
+    <div class="auth-switch">
+      {% if mode == 'register' %}Sudah punya akun?
+      <a href="{{ url_for('login') }}">Login</a>{% else %}Belum punya akun?
+      <a href="{{ url_for('register') }}">Buat akun</a>{% endif %}
+    </div>
+    {% if mode == 'login' %}
+    <div class="demo-login">
+      <b>Akun demo administrator</b><br />admin@coffeelink.test / admin123
+    </div>
+    {% endif %}
+  </div>
+  <div class="auth-visual">
+    <div class="visual-overlay">
+      <span>FROM LOCAL FARMS</span>
+      <h2>Bringing Indonesian coffee to the world.</h2>
+      <p>
+        Satu platform untuk mengelola rantai pasok, transaksi, dan pengiriman
+        kopi.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

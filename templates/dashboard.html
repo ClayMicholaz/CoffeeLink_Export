@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · CoffeeLink{% endblock %}{% block crumb %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">RINGKASAN BISNIS</div><h1>Dashboard</h1><p>Pantau aktivitas perdagangan dan logistik kopi dalam satu tempat.</p></div><div class="date-pill">◷ {{ now if now else 'CoffeeLink Export' }}</div></div>
+<div class="welcome-strip"><div><b>Selamat datang, {{ current_user.name }}!</b><p>Kelola rantai pasok kopi lokal menuju pasar internasional.</p></div><div class="coffee-art">☕</div></div>
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon green">♧</div><span>Petani terdaftar</span><strong>{{ stats.farmers }}</strong><small>Data master petani</small></div>
+<div class="stat-card"><div class="stat-icon blue">◎</div><span>Pembeli</span><strong>{{ stats.buyers }}</strong><small>Buyer internasional</small></div>
+<div class="stat-card"><div class="stat-icon gold">◇</div><span>Produk kopi</span><strong>{{ stats.products }}</strong><small>Jenis produk terdaftar</small></div>
+<div class="stat-card"><div class="stat-icon purple">⇄</div><span>Pesanan ekspor</span><strong>{{ stats.orders }}</strong><small>Total transaksi</small></div>
+</div>
+<div class="section-card"><div class="section-head"><div><h3>Transaksi terbaru</h3><p>Daftar pesanan ekspor yang baru tercatat.</p></div><a class="btn btn-outline-coffee btn-sm" href="{{ url_for('transactions') }}">Lihat semua →</a></div>
+<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Kode pesanan</th><th>Pembeli</th><th>Produk</th><th>Jumlah</th><th>Nilai</th><th>Status</th></tr></thead><tbody>
+{% for o in recent_orders %}<tr><td><b>{{ o.order_code }}</b></td><td>{{ o.buyer.company }}</td><td>{{ o.product.name }}</td><td>{{ "{:,.0f}".format(o.quantity_kg) }} kg</td><td>{{ o.currency }} {{ "{:,.2f}".format(o.total_value) }}</td><td><span class="status">{{ o.status }}</span></td></tr>{% else %}<tr><td colspan="6" class="empty-state">Belum ada transaksi. Buat pesanan ekspor pertama.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

@@ -1,0 +1,484 @@
+{% extends "base_new.html" %}
+{% block title %}{{ product.name }} · CoffeeLink{% endblock %}{% block crumb %}{{ product.name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <a href="{{ url_for('marketplace') }}" class="btn btn-ghost btn-sm mb-3">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Back to Marketplace
+    </a>
+    <span class="eyebrow">{{ product.origin }}</span>
+    <h1>{{ product.name }}</h1>
+    <p class="text-muted">{{ product.variety }} · {{ product.process }} · {{ product.grade }}</p>
+  </div>
+  <div class="flex items-center gap-3">
+    {% if product.featured %}
+    <span class="badge badge-accent">Featured</span>
+    {% endif %}
+    {% if product.stock_kg <= 0 %}
+    <span class="badge badge-error">Out of Stock</span>
+    {% elif product.stock_kg < 100 %}
+    <span class="badge badge-warning">Low Stock</span>
+    {% else %}
+    <span class="badge badge-success">In Stock</span>
+    {% endif %}
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <!-- Product Gallery & Main Info -->
+  <div class="lg:col-span-2">
+    <section class="card" aria-labelledby="galleryTitle">
+      <div class="product-gallery">
+        <div class="main-image">
+          {% if product.image_url %}
+          <img src="{{ product.image_url }}" alt="{{ product.name }} coffee beans" id="mainImage">
+          {% else %}
+          <div class="image-placeholder large">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          {% endif %}
+        </div>
+        {% if product.additional_images %}
+        <div class="thumbnails" role="group" aria-label="Product images">
+          {% for img in product.additional_images %}
+          <button class="thumbnail {% if loop.first %}active{% endif %}" data-image="{{ img }}" aria-label="View image {{ loop.index }}">
+            <img src="{{ img }}" alt="{{ product.name }} - view {{ loop.index }}" loading="lazy">
+          </button>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Specifications -->
+    <section class="card mt-6" aria-labelledby="specsTitle">
+      <div class="card-header">
+        <h2 id="specsTitle" class="text-lg font-bold">Coffee Specifications</h2>
+      </div>
+      <div class="card-body">
+        <div class="specs-grid">
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Variety</span>
+              <span class="spec-value">{{ product.variety }}</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Processing Method</span>
+              <span class="spec-value">{{ product.process }}</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">{{ product.grade }}</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Origin</span>
+              <span class="spec-value">{{ product.origin }}</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Harvest Year</span>
+              <span class="spec-value">{{ product.harvest_year|default('Current Season', true) }}</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Moisture Content</span>
+              <span class="spec-value">{{ product.moisture|default('N/A', true) }}%</span>
+            </div>
+          </div>
+
+          <div class="spec-card highlight">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Cupping Score</span>
+              <span class="spec-value spec-highlight">{{ product.cupping_score|default('N/A', true) }}/100</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M21 12V7H5v5"/>
+                <path d="M21 17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5"/>
+                <path d="M7 17v-5a2 2 0 0 1 2-2h2"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Available Stock</span>
+              <span class="spec-value">{{ "{:,.0f}".format(product.stock_kg) }} kg</span>
+            </div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="spec-content">
+              <span class="spec-label">Certification</span>
+              <span class="spec-value">{{ product.farmer.certification|default('None', true) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Description / Cupping Notes -->
+    {% if product.description or product.cupping_notes %}
+    <section class="card mt-6" aria-labelledby="descriptionTitle">
+      <div class="card-header">
+        <h2 id="descriptionTitle" class="text-lg font-bold">Coffee Profile</h2>
+      </div>
+      <div class="card-body">
+        {% if product.cupping_notes %}
+        <div class="cupping-notes">
+          <h3 class="text-sm font-semibold mb-3">Cupping Notes</h3>
+          <div class="flavor-wheel">
+            {% for note in product.cupping_notes.split(',') %}
+            <span class="flavor-tag">{{ note.strip() }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% if product.description %}
+        <div class="description mt-4 {% if product.cupping_notes %}pt-4 border-t{% endif %}">
+          <h3 class="text-sm font-semibold mb-3">Description</h3>
+          <p class="text-secondary">{{ product.description }}</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Farmer Info -->
+    <section class="card mt-6" aria-labelledby="farmerTitle">
+      <div class="card-header">
+        <h2 id="farmerTitle" class="text-lg font-bold">About the Farmer</h2>
+      </div>
+      <div class="card-body">
+        <div class="farmer-profile">
+          <div class="avatar avatar-lg">{{ product.farmer.name[:1]|upper }}</div>
+          <div class="farmer-details">
+            <h3 class="text-lg font-bold">{{ product.farmer.name }}</h3>
+            <p class="text-muted">{{ product.farmer.village }}, {{ product.farmer.region }}</p>
+            {% if product.farmer.certification %}
+            <span class="badge badge-success mt-2">{{ product.farmer.certification }} Certified</span>
+            {% endif %}
+          </div>
+        </div>
+        {% if product.farmer.description %}
+        <div class="farmer-story mt-4 pt-4 border-t">
+          <p class="text-secondary">{{ product.farmer.description }}</p>
+        </div>
+        {% endif %}
+        <div class="farmer-stats mt-4 flex flex-wrap gap-6">
+          <div class="stat">
+            <span class="stat-value">{{ product.farmer.products|length }}</span>
+            <span class="stat-label">Products</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{ "{:,.0f}".format(product.farmer.products|map(attribute='stock_kg')|sum) }}</span>
+            <span class="stat-label">Total Stock (kg)</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">{{ product.farmer.orders|length }}</span>
+            <span class="stat-label">Orders Fulfilled</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Sidebar: Pricing & Inquiry -->
+  <aside class="lg:col-span-1">
+    <section class="card sticky-top" style="top: 100px;" aria-labelledby="pricingTitle">
+      <div class="card-body">
+        <h2 id="pricingTitle" class="text-lg font-bold mb-4">Pricing & Availability</h2>
+
+        <div class="price-card">
+          <div class="price-main">
+            <span class="price-amount">${{ "{:,.2f}".format(product.price_per_kg) }}</span>
+            <span class="price-period">/ kg</span>
+          </div>
+          <p class="price-note">FOB Indonesia port • Minimum order: 500 kg</p>
+        </div>
+
+        <div class="stock-indicator">
+          <div class="stock-bar">
+            <div class="stock-fill" style="width: {{ 100 if product.stock_kg / 5000 * 100 > 100 else product.stock_kg / 5000 * 100 }}%"></div>
+          </div>
+          <div class="stock-info flex justify-between">
+            <span>{{ "{:,.0f}".format(product.stock_kg) }} kg available</span>
+            <span class="text-muted">{{ product.farmer.name }}</span>
+          </div>
+        </div>
+
+        <div class="pricing-tiers mt-4">
+          <h3 class="text-sm font-semibold mb-3">Volume Discounts</h3>
+          <table class="table tier-table">
+            <thead>
+              <tr>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price/kg</th>
+                <th scope="col">Savings</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>500 – 1,999 kg</td>
+                <td>${{ "{:,.2f}".format(product.price_per_kg) }}</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>2,000 – 4,999 kg</td>
+                <td>${{ "{:,.2f}".format(product.price_per_kg * 0.97) }}</td>
+                <td>3%</td>
+              </tr>
+              <tr>
+                <td>5,000 – 9,999 kg</td>
+                <td>${{ "{:,.2f}".format(product.price_per_kg * 0.94) }}</td>
+                <td>6%</td>
+              </tr>
+              <tr>
+                <td>10,000+ kg</td>
+                <td>${{ "{:,.2f}".format(product.price_per_kg * 0.9) }}</td>
+                <td>10%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr class="my-4">
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.role == 'buyer' %}
+          <button class="btn btn-primary btn-block btn-lg" onclick="openInquiryModal('{{ product.id }}')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Send Inquiry
+          </button>
+          <button class="btn btn-outline btn-block mt-3" onclick="requestSample('{{ product.id }}')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+            Request Sample
+          </button>
+          {% elif current_user.role == 'farmer' %}
+          <a href="{{ url_for('master_form', kind='products', record_id=product.id) }}" class="btn btn-primary btn-block">
+            Edit Product
+          </a>
+          {% elif current_user.role == 'admin' %}
+          <a href="{{ url_for('master_form', kind='products', record_id=product.id) }}" class="btn btn-primary btn-block">
+            Manage Product
+          </a>
+          {% endif %}
+        {% else %}
+        <a href="{{ url_for('login', next=request.url) }}" class="btn btn-primary btn-block btn-lg">
+          Login to Inquire
+        </a>
+        <p class="text-center text-sm text-muted mt-3">New to CoffeeLink? <a href="{{ url_for('register') }}">Create an account</a></p>
+        {% endif %}
+
+        <div class="contact-info mt-6 pt-4 border-t">
+          <h3 class="text-sm font-semibold mb-3">Need help?</h3>
+          <div class="contact-item flex items-center gap-2 text-sm text-muted">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Contact our trade team</span>
+          </div>
+          <div class="contact-item flex items-center gap-2 text-sm text-muted">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span>Typical response: < 24 hours</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<!-- Inquiry Modal -->
+<div class="modal" id="inquiryModal" role="dialog" aria-modal="true" aria-labelledby="inquiryModalTitle" hidden>
+  <div class="modal-backdrop"></div>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="inquiryModalTitle">Send Inquiry for {{ product.name }}</h2>
+      <button class="btn btn-ghost btn-icon modal-close" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <form id="inquiryForm" method="post" action="{{ url_for('create_inquiry') }}">
+      <input type="hidden" name="product_id" value="{{ product.id }}">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="inquiryQuantity">Quantity (kg)</label>
+          <input type="number" class="form-input" id="inquiryQuantity" name="quantity_kg" min="500" step="100" value="1000" required>
+          <p class="form-help">Minimum order: 500 kg</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inquiryMessage">Message to Supplier</label>
+          <textarea class="form-textarea" id="inquiryMessage" name="message" rows="5" placeholder="Introduce your company, specify requirements (certifications, packaging, shipping terms), timeline, and any questions for the farmer." required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inquiryIncoterms">Preferred Incoterms</label>
+          <select class="form-select" id="inquiryIncoterms" name="incoterms">
+            <option value="FOB">FOB (Free On Board)</option>
+            <option value="CIF">CIF (Cost, Insurance & Freight)</option>
+            <option value="EXW">EXW (Ex Works)</option>
+            <option value="DAP">DAP (Delivered At Place)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inquiryTimeline">Desired Shipment Timeline</label>
+          <select class="form-select" id="inquiryTimeline" name="timeline">
+            <option value="asap">As soon as possible</option>
+            <option value="1month">Within 1 month</option>
+            <option value="3months">Within 3 months</option>
+            <option value="specific">Specific date (will specify in message)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send Inquiry</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Image gallery
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  const mainImage = document.getElementById('mainImage');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      thumbnails.forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      if (mainImage) {
+        mainImage.src = this.dataset.image;
+      }
+    });
+  });
+
+  // Inquiry modal
+  const inquiryModal = document.getElementById('inquiryModal');
+  const inquiryForm = document.getElementById('inquiryForm');
+
+  window.openInquiryModal = function(productId) {
+    inquiryModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('inquiryQuantity').focus();
+  };
+
+  function closeInquiryModal() {
+    inquiryModal.hidden = true;
+    document.body.style.overflow = '';
+    inquiryForm.reset();
+  }
+
+  inquiryModal.querySelectorAll('.modal-close, .modal-backdrop').forEach(el => {
+    el.addEventListener('click', closeInquiryModal);
+  });
+
+  // Sample request
+  window.requestSample = function(productId) {
+    // Pre-fill inquiry form for sample request
+    const qtyInput = document.getElementById('inquiryQuantity');
+    const msgInput = document.getElementById('inquiryMessage');
+    qtyInput.value = 10;
+    msgInput.value = 'I would like to request a 10kg sample for cupping evaluation. Please provide shipping costs to [destination] and confirm sample availability.';
+    openInquiryModal(productId);
+  };
+
+  // Auto-dismiss flash messages
+  const flashContainer = document.getElementById('flashContainer');
+  if (flashContainer) {
+    const alerts = flashContainer.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-10px)';
+        setTimeout(() => alert.remove(), 300);
+      }, 5000);
+    });
+  }
+});
+</script>
+{% endblock %}

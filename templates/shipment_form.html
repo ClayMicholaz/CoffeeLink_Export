@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Tambah Pengiriman · CoffeeLink{% endblock %}{% block crumb %}Pengiriman / Tambah{% endblock %}
+{% block content %}<div class="page-heading"><div><div class="eyebrow">LOGISTICS TRACKING</div><h1>Tambah Pengiriman</h1><p>Hubungkan informasi logistik dengan pesanan ekspor.</p></div><a class="btn btn-outline-coffee" href="{{ url_for('shipments') }}">← Kembali</a></div>
+<div class="section-card form-card"><form method="post"><div class="form-grid">
+<div class="mb-3"><label class="form-label">Pesanan ekspor</label><select name="order_id" class="form-select" required><option value="">Pilih pesanan</option>{% for o in orders %}<option value="{{ o.id }}">{{ o.order_code }} — {{ o.buyer.company }}</option>{% endfor %}</select></div>
+<div class="mb-3"><label class="form-label">Perusahaan logistik / carrier</label><input name="carrier" class="form-control" required></div>
+<div class="mb-3"><label class="form-label">Nomor tracking</label><input name="tracking_number" class="form-control"></div>
+<div class="mb-3"><label class="form-label">Pelabuhan asal</label><input name="departure_port" class="form-control" placeholder="Tanjung Priok" required></div>
+<div class="mb-3"><label class="form-label">Pelabuhan tujuan</label><input name="destination_port" class="form-control" placeholder="Hamburg" required></div>
+<div class="mb-3"><label class="form-label">Tanggal berangkat</label><input type="date" name="ship_date" class="form-control"></div>
+<div class="mb-3"><label class="form-label">Estimasi tiba</label><input type="date" name="estimated_arrival" class="form-control"></div>
+<div class="mb-3"><label class="form-label">Status</label><select name="status" class="form-select"><option>Persiapan</option><option>Dalam perjalanan</option><option>Tiba di pelabuhan</option><option>Diterima pembeli</option></select></div>
+<div class="mb-3 full"><label class="form-label">Catatan</label><textarea name="notes" class="form-control" rows="3"></textarea></div>
+</div><div class="form-actions"><button class="btn btn-coffee">Simpan Pengiriman</button></div></form></div>{% endblock %}

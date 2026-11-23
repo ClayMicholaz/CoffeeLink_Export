@@ -1,0 +1,868 @@
+{% extends "base_new.html" %} {% block title %}Marketplace · CoffeeLink{%
+endblock %}{% block crumb %}Marketplace{% endblock %} {% block topbar_search %}
+<div class="search-box" role="search">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+  <input
+    type="search"
+    id="marketplaceSearch"
+    value="{{ request.args.get('q', '') }}"
+    placeholder="Search coffee by name, origin, variety..."
+    aria-label="Search coffee products"
+  />
+  <kbd class="search-shortcut">⌘K</kbd>
+</div>
+{% endblock %} {% block content %}
+<div class="marketplace-page">
+<div class="page-header">
+  <div>
+    <span class="eyebrow">DISCOVER</span>
+    <h1>Coffee Marketplace</h1>
+    <p class="text-muted">
+      Explore premium Indonesian coffee from verified farmers and origins.
+    </p>
+  </div>
+  <div class="flex items-center gap-3">
+    <button
+      class="btn btn-secondary"
+      id="filterToggle"
+      aria-expanded="false"
+      aria-controls="filterPanel"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        aria-hidden="true"
+      >
+        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+      </svg>
+      <span>Filters</span>
+      <span class="badge badge-secondary" id="activeFilterCount"
+        >{{ active_filter_count }}</span
+      >
+    </button>
+    <div class="dropdown">
+      <button
+        class="btn btn-outline dropdown-trigger"
+        aria-expanded="false"
+        aria-haspopup="true"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <span>Sort: {{ sort_label }}</span>
+      </button>
+      <div class="dropdown-menu" role="menu">
+        <a
+          class="dropdown-item {% if sort_by == 'newest' %}active{% endif %}"
+          href="{{ url_for('marketplace', sort='newest', **filter_args) }}"
+          role="menuitem"
+          >Newest arrivals</a
+        >
+        <a
+          class="dropdown-item {% if sort_by == 'price_asc' %}active{% endif %}"
+          href="{{ url_for('marketplace', sort='price_asc', **filter_args) }}"
+          role="menuitem"
+          >Price: Low to High</a
+        >
+        <a
+          class="dropdown-item {% if sort_by == 'price_desc' %}active{% endif %}"
+          href="{{ url_for('marketplace', sort='price_desc', **filter_args) }}"
+          role="menuitem"
+          >Price: High to Low</a
+        >
+        <a
+          class="dropdown-item {% if sort_by == 'cupping_desc' %}active{% endif %}"
+          href="{{ url_for('marketplace', sort='cupping_desc', **filter_args) }}"
+          role="menuitem"
+          >Cupping Score: Highest</a
+        >
+        <a
+          class="dropdown-item {% if sort_by == 'stock_desc' %}active{% endif %}"
+          href="{{ url_for('marketplace', sort='stock_desc', **filter_args) }}"
+          role="menuitem"
+          >Most Available</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Sidebar (Mobile) / Panel (Desktop) -->
+<div
+  class="filter-panel"
+  id="filterPanel"
+  role="complementary"
+  aria-label="Product filters"
+>
+  <div class="filter-header">
+    <h3>Filters</h3>
+    <div class="filter-header-actions">
+      <button
+        class="btn btn-ghost btn-sm"
+        id="filterClose"
+        type="button"
+        aria-label="Close filters"
+      >
+        Close
+      </button>
+      <button class="btn btn-ghost btn-sm" id="clearFilters" type="button">
+        Clear all
+      </button>
+    </div>
+  </div>
+  <form method="get" action="{{ url_for('marketplace') }}" class="filter-form">
+    <div class="filter-group">
+      <label class="filter-label">Origin Region</label>
+      <div class="filter-options">
+        {% for origin in origins %}
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="origin"
+            value="{{ origin }}"
+            {%
+            if
+            origin
+            in
+            selected_origins
+            %}checked{%
+            endif
+            %}
+          />
+          <span>{{ origin }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Variety</label>
+      <div class="filter-options">
+        {% for variety in varieties %}
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="variety"
+            value="{{ variety }}"
+            {%
+            if
+            variety
+            in
+            selected_varieties
+            %}checked{%
+            endif
+            %}
+          />
+          <span>{{ variety }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Processing Method</label>
+      <div class="filter-options">
+        {% for process in processes %}
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="process"
+            value="{{ process }}"
+            {%
+            if
+            process
+            in
+            selected_processes
+            %}checked{%
+            endif
+            %}
+          />
+          <span>{{ process }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Grade</label>
+      <div class="filter-options">
+        {% for grade in grades %}
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="grade"
+            value="{{ grade }}"
+            {%
+            if
+            grade
+            in
+            selected_grades
+            %}checked{%
+            endif
+            %}
+          />
+          <span>{{ grade }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Cupping Score</label>
+      <div class="range-slider">
+        <input
+          type="range"
+          name="min_score"
+          min="80"
+          max="95"
+          value="{{ min_score|default(80, true) }}"
+          id="minScore"
+        />
+        <output for="minScore" id="minScoreValue"
+          >{{ min_score|default(80, true) }}+</output
+        >
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Price Range (USD/kg)</label>
+      <div class="price-range">
+        <div class="price-input">
+          <span class="currency">$</span>
+          <input
+            type="number"
+            name="min_price"
+            placeholder="Min"
+            value="{{ min_price|default('', true) }}"
+            min="0"
+            step="0.5"
+          />
+        </div>
+        <span class="range-separator">–</span>
+        <div class="price-input">
+          <span class="currency">$</span>
+          <input
+            type="number"
+            name="max_price"
+            placeholder="Max"
+            value="{{ max_price|default('', true) }}"
+            min="0"
+            step="0.5"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Availability</label>
+      <div class="filter-options">
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="in_stock"
+            value="1"
+            {%
+            if
+            in_stock
+            %}checked{%
+            endif
+            %}
+          />
+          <span>In stock only</span>
+        </label>
+        <label class="filter-option">
+          <input
+            type="checkbox"
+            name="featured"
+            value="1"
+            {%
+            if
+            featured
+            %}checked{%
+            endif
+            %}
+          />
+          <span>Featured coffees</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-primary btn-block">
+        Apply Filters
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Results -->
+<div class="marketplace-layout">
+  <aside class="filter-sidebar d-none d-lg-block" aria-label="Filters">
+    <div class="filter-panel desktop-filter">
+      <div class="filter-header"><h3>Refine your search</h3></div>
+      <form
+        method="get"
+        action="{{ url_for('marketplace') }}"
+        class="filter-form"
+      >
+        <div class="filter-group">
+          <label class="filter-label">Origin</label>
+          <div class="filter-options">
+            {% for origin in origins %}<label class="filter-option"
+              ><input
+                type="checkbox"
+                name="origin"
+                value="{{ origin }}"
+                {%
+                if
+                origin
+                in
+                selected_origins
+                %}checked{%
+                endif
+                %}
+              /><span>{{ origin }}</span></label
+            >{% endfor %}
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Processing</label>
+          <div class="filter-options">
+            {% for process in processes %}<label class="filter-option"
+              ><input
+                type="checkbox"
+                name="process"
+                value="{{ process }}"
+                {%
+                if
+                process
+                in
+                selected_processes
+                %}checked{%
+                endif
+                %}
+              /><span>{{ process }}</span></label
+            >{% endfor %}
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Minimum cupping score</label>
+          <div class="range-slider">
+            <input
+              type="range"
+              name="min_score"
+              min="80"
+              max="95"
+              value="{{ min_score|default(80, true) }}"
+            /><output>{{ min_score|default(80, true) }}+</output>
+          </div>
+        </div>
+        <label class="filter-option"
+          ><input
+            type="checkbox"
+            name="in_stock"
+            value="1"
+            {%
+            if
+            in_stock
+            %}checked{%
+            endif
+            %}
+          /><span>In stock only</span></label
+        >
+        <button type="submit" class="btn btn-primary btn-block filter-submit">
+          Apply filters
+        </button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="marketplace-main">
+    <div class="results-header">
+      <div class="view-toggle" role="group" aria-label="View options">
+        <button
+          class="btn btn-ghost btn-sm {% if view_mode != 'list' %}active{% endif %}"
+          data-view="grid"
+          aria-label="Grid view"
+          aria-pressed="{{ 'false' if view_mode == 'list' else 'true' }}"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+          </svg>
+        </button>
+        <button
+          class="btn btn-ghost btn-sm {% if view_mode == 'list' %}active{% endif %}"
+          data-view="list"
+          aria-label="List view"
+          aria-pressed="{{ 'true' if view_mode == 'list' else 'false' }}"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {% if products %}
+    <div class="product-grid {% if view_mode == 'list' %}list-view{% endif %}" id="productGrid" role="list">
+      {% for product in products %}
+      <article
+        class="product-card card"
+        role="listitem"
+        data-product-id="{{ product.id }}"
+      >
+        <div class="product-image">
+          {% if product.image_url %}
+          <img
+            src="{{ product.image_url }}"
+            alt="{{ product.name }} coffee beans"
+            loading="lazy"
+          />
+          {% else %}
+          <div class="image-placeholder">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              aria-hidden="true"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          {% endif %} {% if product.featured %}
+          <span class="badge badge-accent featured-badge">Featured</span>
+          {% endif %} {% if product.stock_kg <= 0 %}
+          <span class="badge badge-error out-of-stock-badge">Out of Stock</span>
+          {% elif product.stock_kg < 100 %}
+          <span class="badge badge-warning low-stock-badge">Low Stock</span>
+          {% endif %}
+        </div>
+        <div class="product-content">
+          <div class="product-meta">
+            <span class="product-origin">{{ product.origin }}</span>
+            <span class="product-harvest"
+              >{{ product.harvest_year|default('Current', true) }} Harvest</span
+            >
+          </div>
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-variety">
+            {{ product.variety }} · {{ product.process }}
+          </p>
+
+          <div class="product-specs">
+            <div class="spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">{{ product.grade }}</span>
+            </div>
+            <div class="spec">
+              <span class="spec-label">Cupping</span>
+              <span class="spec-value"
+                >{{ product.cupping_score|default('N/A', true) }}/100</span
+              >
+            </div>
+            <div class="spec">
+              <span class="spec-label">Moisture</span>
+              <span class="spec-value"
+                >{{ product.moisture|default('N/A', true) }}%</span
+              >
+            </div>
+          </div>
+
+          <div class="product-farmer">
+            <div class="avatar avatar-sm">
+              {{ product.farmer.name[:1]|upper }}
+            </div>
+            <div class="farmer-info">
+              <span class="farmer-name">{{ product.farmer.name }}</span>
+              <span class="farmer-location"
+                >{{ product.farmer.village }}, {{ product.farmer.region }}</span
+              >
+            </div>
+          </div>
+
+          <div class="product-footer">
+            <div class="product-price">
+              <span class="price-per-kg"
+                >${{ "{:,.2f}".format(product.price_per_kg) }}</span
+              >
+              <span class="price-unit">/ kg</span>
+            </div>
+            <div class="product-stock">
+              <span class="stock-label"
+                >{{ "{:,.0f}".format(product.stock_kg) }} kg available</span
+              >
+            </div>
+          </div>
+
+          <div class="product-actions">
+            {% if current_user.is_authenticated and current_user.role == 'buyer'
+            %}
+            <button
+              class="btn btn-primary btn-block"
+              onclick="openInquiryModal({{ product.id }})"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
+              Inquire
+            </button>
+            <a
+              href="{{ url_for('product_detail', product_id=product.id) }}"
+              class="btn btn-outline btn-block"
+              >Details</a
+            >
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-block"
+              >Login to Inquire</a
+            >
+            <a
+              href="{{ url_for('product_detail', product_id=product.id) }}"
+              class="btn btn-outline btn-block"
+              >View Details</a
+            >
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <nav class="pagination-container" aria-label="Pagination">
+      <ul class="pagination" role="navigation">
+        {% if pagination.has_prev %}
+        <li>
+          <a
+            class="pagination-item"
+            href="{{ url_for('marketplace', page=pagination.prev_num, **filter_args) }}"
+            aria-label="Previous page"
+            >‹</a
+          >
+        </li>
+        {% else %}
+        <li><span class="pagination-item" aria-disabled="true">‹</span></li>
+        {% endif %} {% for page_num in pagination.iter_pages(left_edge=1,
+        right_edge=1, left_current=2, right_current=2) %} {% if page_num %} {%
+        if page_num == pagination.page %}
+        <li>
+          <span class="pagination-item active" aria-current="page"
+            >{{ page_num }}</span
+          >
+        </li>
+        {% else %}
+        <li>
+          <a
+            class="pagination-item"
+            href="{{ url_for('marketplace', page=page_num, **filter_args) }}"
+            >{{ page_num }}</a
+          >
+        </li>
+        {% endif %} {% else %}
+        <li><span class="pagination-item ellipsis">…</span></li>
+        {% endif %} {% endfor %} {% if pagination.has_next %}
+        <li>
+          <a
+            class="pagination-item"
+            href="{{ url_for('marketplace', page=pagination.next_num, **filter_args) }}"
+            aria-label="Next page"
+            >›</a
+          >
+        </li>
+        {% else %}
+        <li><span class="pagination-item" aria-disabled="true">›</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %} {% else %}
+    <div class="empty-state card">
+      <svg
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        class="mx-auto mb-4 text-muted"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <h3>No coffees found</h3>
+      <p class="text-muted">Try adjusting your filters or search terms</p>
+      <button class="btn btn-secondary mt-4" id="clearAllFilters">
+        Clear all filters
+      </button>
+    </div>
+    {% endif %}
+  </main>
+</div>
+
+<!-- Inquiry Modal -->
+<div
+  class="modal"
+  id="inquiryModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="inquiryModalTitle"
+  hidden
+>
+  <div class="modal-backdrop"></div>
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="inquiryModalTitle">Send Inquiry</h2>
+      <button
+        class="btn btn-ghost btn-icon modal-close"
+        aria-label="Close modal"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <form
+      id="inquiryForm"
+      method="post"
+      action="{{ url_for('create_inquiry') }}"
+    >
+      <input type="hidden" name="product_id" id="inquiryProductId" />
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="inquiryQuantity">Quantity (kg)</label>
+          <input
+            type="number"
+            class="form-input"
+            id="inquiryQuantity"
+            name="quantity_kg"
+            min="1"
+            step="0.01"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inquiryMessage"
+            >Message to Supplier</label
+          >
+          <textarea
+            class="form-textarea"
+            id="inquiryMessage"
+            name="message"
+            rows="4"
+            placeholder="Introduce your company, specify requirements, ask about certifications, shipping terms, etc."
+            required
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Send Inquiry</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Filter panel toggle (mobile)
+    const filterToggle = document.getElementById("filterToggle");
+    const filterPanel = document.getElementById("filterPanel");
+    const filterClose = document.getElementById("filterClose");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+    if (filterToggle && filterPanel) {
+      filterToggle.addEventListener("click", function () {
+        const expanded = filterToggle.getAttribute("aria-expanded") === "true";
+        filterToggle.setAttribute("aria-expanded", !expanded);
+        filterPanel.classList.toggle("open");
+        if (sidebarOverlay) sidebarOverlay.classList.toggle("open");
+      });
+    }
+
+    if (filterClose && filterPanel) {
+      filterClose.addEventListener("click", function () {
+        filterPanel.classList.remove("open");
+        filterToggle.setAttribute("aria-expanded", "false");
+        if (sidebarOverlay) sidebarOverlay.classList.remove("open");
+      });
+    }
+
+    // View mode toggle
+    const viewButtons = document.querySelectorAll("[data-view]");
+    const productGrid = document.getElementById("productGrid");
+
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        viewButtons.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
+        const view = this.dataset.view;
+        if (productGrid) {
+          productGrid.classList.toggle("list-view", view === "list");
+          localStorage.setItem("marketplaceView", view);
+        }
+        viewButtons.forEach((b) =>
+          b.setAttribute("aria-pressed", b === this ? "true" : "false"),
+        );
+      });
+    });
+
+    // Restore view mode
+    const savedView = localStorage.getItem("marketplaceView");
+    if (savedView && productGrid) {
+      productGrid.classList.toggle("list-view", savedView === "list");
+      viewButtons.forEach((b) => {
+        const isActive = b.dataset.view === savedView;
+        b.classList.toggle("active", isActive);
+        b.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    }
+
+    // Range slider output
+    const minScore = document.getElementById("minScore");
+    const minScoreValue = document.getElementById("minScoreValue");
+    if (minScore && minScoreValue) {
+      minScore.addEventListener("input", function () {
+        minScoreValue.textContent = this.value + "+";
+      });
+    }
+
+    // Inquiry modal
+    const inquiryModal = document.getElementById("inquiryModal");
+    const inquiryForm = document.getElementById("inquiryForm");
+    const inquiryProductId = document.getElementById("inquiryProductId");
+
+    window.openInquiryModal = function (productId) {
+      inquiryProductId.value = productId;
+      inquiryModal.hidden = false;
+      document.body.style.overflow = "hidden";
+      document.getElementById("inquiryQuantity").focus();
+    };
+
+    function closeInquiryModal() {
+      inquiryModal.hidden = true;
+      document.body.style.overflow = "";
+      inquiryForm.reset();
+    }
+
+    inquiryModal
+      .querySelectorAll(".modal-close, .modal-backdrop")
+      .forEach((el) => {
+        el.addEventListener("click", closeInquiryModal);
+      });
+
+    // Clear filters
+    const clearFilters = document.getElementById("clearFilters");
+    const clearAllFilters = document.getElementById("clearAllFilters");
+    [clearFilters, clearAllFilters].forEach((btn) => {
+      if (btn) {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.href = '{{ url_for("marketplace") }}';
+        });
+      }
+    });
+
+    // Search with debounce
+    const searchInput = document.getElementById("marketplaceSearch");
+    if (searchInput) {
+      let debounceTimer;
+      searchInput.addEventListener("input", function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          const params = new URLSearchParams(window.location.search);
+          params.set("q", this.value);
+          params.set("page", "1");
+          window.location.href =
+            '{{ url_for("marketplace") }}?' + params.toString();
+        }, 300);
+      });
+    }
+
+    // Auto-dismiss flash messages
+    const flashContainer = document.getElementById("flashContainer");
+    if (flashContainer) {
+      const alerts = flashContainer.querySelectorAll(".alert");
+      alerts.forEach((alert) => {
+        setTimeout(() => {
+          alert.style.opacity = "0";
+          alert.style.transform = "translateY(-10px)";
+          setTimeout(() => alert.remove(), 300);
+        }, 5000);
+      });
+    }
+  });
+</script>
+{% endblock %}

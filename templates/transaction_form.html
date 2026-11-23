@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Buat Pesanan · CoffeeLink{% endblock %}{% block crumb %}Transaksi / Pesanan Baru{% endblock %}
+{% block content %}<div class="page-heading"><div><div class="eyebrow">ORDER MANAGEMENT</div><h1>Buat Pesanan Ekspor</h1><p>Stok produk akan berkurang otomatis setelah pesanan disimpan.</p></div><a class="btn btn-outline-coffee" href="{{ url_for('transactions') }}">← Kembali</a></div>
+<div class="section-card form-card"><form method="post"><div class="form-grid">
+<div class="mb-3"><label class="form-label">Pembeli</label><select name="buyer_id" class="form-select" required><option value="">Pilih pembeli</option>{% for b in buyers %}<option value="{{ b.id }}">{{ b.company }} — {{ b.country }}</option>{% endfor %}</select></div>
+<div class="mb-3"><label class="form-label">Produk kopi</label><select name="product_id" class="form-select" required><option value="">Pilih produk</option>{% for p in products %}<option value="{{ p.id }}">{{ p.name }} (stok {{ p.stock_kg|int }} kg · ${{ p.price_per_kg }}/kg)</option>{% endfor %}</select></div>
+<div class="mb-3"><label class="form-label">Jumlah (kg)</label><input type="number" min="1" step="0.01" name="quantity_kg" class="form-control" required></div>
+<div class="mb-3"><label class="form-label">Mata uang</label><select name="currency" class="form-select"><option>USD</option><option>EUR</option></select></div>
+<div class="mb-3"><label class="form-label">Negara tujuan</label><input name="destination" class="form-control" placeholder="Contoh: Germany" required></div>
+</div><div class="form-actions"><button class="btn btn-coffee">Simpan Pesanan</button></div></form></div>{% endblock %}

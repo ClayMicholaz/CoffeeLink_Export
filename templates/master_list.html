@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}{{ cfg.title }} · CoffeeLink{% endblock %}{% block crumb %}Data Master / {{ cfg.title }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">PENGELOLAAN DATA</div><h1>{{ cfg.title }}</h1><p>Tambah, lihat, ubah, dan hapus data master.</p></div><a class="btn btn-coffee" href="{{ url_for('master_form', kind=kind) }}">＋ Tambah Data</a></div>
+<div class="section-card"><div class="table-responsive"><table class="table align-middle"><thead><tr>{% for col in cfg.columns %}<th>{{ col.replace('_',' ')|title }}</th>{% endfor %}<th class="text-end">Aksi</th></tr></thead><tbody>
+{% for r in records %}<tr>{% for col in cfg.columns %}<td>{% if col == 'stock_kg' %}{{ "{:,.0f}".format(r|attr(col)) }} kg{% elif col == 'price_per_kg' %}$ {{ "{:,.2f}".format(r|attr(col)) }}{% else %}{{ r|attr(col) or '-' }}{% endif %}</td>{% endfor %}<td class="text-end text-nowrap"><a class="btn btn-light btn-sm" href="{{ url_for('master_form', kind=kind, record_id=r.id) }}">Edit</a> <form class="d-inline" method="post" action="{{ url_for('master_delete', kind=kind, record_id=r.id) }}" onsubmit="return confirm('Hapus data ini?')"><button class="btn btn-delete btn-sm">Hapus</button></form></td></tr>
+{% else %}<tr><td colspan="{{ cfg.columns|length + 1 }}" class="empty-state">Belum ada data.</td></tr>{% endfor %}
+</tbody></table></div><div class="table-footer">{{ records|length }} data tersimpan</div></div>
+{% endblock %}

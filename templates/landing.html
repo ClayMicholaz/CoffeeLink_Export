@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CoffeeLink - Premium Indonesian Coffee Trading Platform. Connect with verified farmers, source exceptional specialty coffee, and build direct trade relationships."
+    />
+    <title>CoffeeLink — Indonesian Specialty Coffee Marketplace</title>
+    <link
+      href="{{ url_for('static', filename='design-system.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='landing.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <header class="landing-nav" role="banner">
+      <div class="container">
+        <a href="/" class="nav-brand" aria-label="CoffeeLink Home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M17 8h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h1"
+              />
+              <path d="M9 2v8" />
+              <path d="M15 2v8" />
+              <path d="M8 16a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2" />
+              <line x1="12" y1="2" x2="12" y2="22" />
+            </svg>
+          </span>
+          <span>CoffeeLink</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#origins">Origins</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="{{ url_for('marketplace') }}">Marketplace</a>
+        </nav>
+        <div class="nav-actions">
+          <a href="{{ url_for('login') }}" class="btn btn-ghost">Sign In</a>
+          <a href="{{ url_for('register') }}" class="btn btn-primary"
+            >Get Started</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-background" aria-hidden="true">
+        <div class="hero-gradient"></div>
+        <div class="hero-pattern"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content">
+          <span class="eyebrow">PREMIUM INDONESIAN COFFEE</span>
+          <h1 id="heroTitle">Exceptional Coffee, Direct from Origin</h1>
+          <p class="hero-description">
+            Connect with verified Indonesian coffee farmers. Source
+            specialty-grade beans with full traceability — from farm to cup.
+          </p>
+          <div class="hero-actions">
+            <a
+              href="{{ url_for('marketplace') }}"
+              class="btn btn-primary btn-lg"
+            >
+              Explore Marketplace
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+            <a href="#how-it-works" class="btn btn-outline btn-lg"
+              >Learn How It Works</a
+            >
+          </div>
+          <div class="hero-stats" role="list" aria-label="Platform statistics">
+            <div class="stat" role="listitem">
+              <strong class="stat-value" data-count="247">0</strong>
+              <span class="stat-label">Verified Farmers</span>
+            </div>
+            <div class="stat" role="listitem">
+              <strong class="stat-value" data-count="156">0</strong>
+              <span class="stat-label">Coffee Origins</span>
+            </div>
+            <div class="stat" role="listitem">
+              <strong class="stat-value" data-count="89">0</strong>
+              <span class="stat-label">Countries Served</span>
+            </div>
+            <div class="stat" role="listitem">
+              <strong class="stat-value" data-count="12000">0</strong>
+              <span class="stat-label">Tons Shipped</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-image-container">
+            <img
+              src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1200&q=85"
+              alt="Indonesian coffee farm landscape"
+              loading="eager"
+            />
+            <div class="hero-badge">
+              <span class="badge-number">86.5</span>
+              <span class="badge-label">Avg Cupping Score</span>
+            </div>
+            <div class="hero-badge badge-origin">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span>Java • Sumatra • Sulawesi • Bali • Flores</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust-bar" aria-label="Trusted by leading coffee companies">
+      <div class="container">
+        <p class="trust-label">Trusted by specialty roasters worldwide</p>
+        <div class="trust-logos" aria-hidden="true">
+          <span class="trust-logo">Nordic Coffee Trading</span>
+          <span class="trust-logo">Blue Bottle Coffee</span>
+          <span class="trust-logo">Stumptown Coffee</span>
+          <span class="trust-logo">Intelligentsia</span>
+          <span class="trust-logo">Counter Culture</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features" aria-labelledby="featuresTitle">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">PLATFORM FEATURES</span>
+          <h2 id="featuresTitle">Built for Specialty Coffee Trade</h2>
+          <p class="section-description">
+            Every feature designed around the unique needs of coffee
+            professionals — from farm-level traceability to export logistics.
+          </p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <h3>Farm-Level Traceability</h3>
+            <p>
+              Every lot traced to its exact farm, variety, and harvest. Access
+              cupping scores, moisture content, processing details, and
+              certifications.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3>Verified Farmer Network</h3>
+            <p>
+              Work directly with vetted Indonesian farmers. Profiles include
+              certifications, farming practices, harvest calendars, and
+              production capacity.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                />
+                <circle cx="8" cy="16" r="1" />
+                <circle cx="18" cy="16" r="1" />
+              </svg>
+            </div>
+            <h3>Export Logistics Management</h3>
+            <p>
+              End-to-end shipment tracking — from FOB documentation to vessel
+              scheduling, customs clearance, and final delivery confirmation.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </div>
+            <h3>Real-Time Market Data</h3>
+            <p>
+              Live pricing, availability, and harvest forecasts. Compare origins
+              side-by-side with standardized quality metrics.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+                />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Order & Contract Management</h3>
+            <p>
+              Create purchase orders, manage contracts, track fulfillment, and
+              handle quality claims — all in one platform.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
+            </div>
+            <h3>Direct Communication</h3>
+            <p>
+              Built-in inquiry system with threaded conversations, sample
+              requests, and document sharing — no email chains.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Origins Showcase -->
+    <section id="origins" class="origins" aria-labelledby="originsTitle">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">INDONESIAN ORIGINS</span>
+          <h2 id="originsTitle">Discover Indonesia's Coffee Regions</h2>
+          <p class="section-description">
+            From the highlands of Aceh to the volcanic soils of Flores — each
+            origin offers distinct terroir and flavor profiles.
+          </p>
+        </div>
+        <div class="origins-grid">
+          <article class="origin-card" style="--origin-color: #8b5e3c">
+            <div class="origin-image">
+              <img
+                src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80"
+                alt="Gayo Highlands coffee farms"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Aceh Gayo</span>
+              <h3>Gayo Highlands</h3>
+              <p>
+                High-altitude Arabica from the Gayo Highlands. Known for clean,
+                bright acidity with notes of citrus, jasmine, and brown sugar.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> Ateng, Tim Tim, Bor Bor</li>
+                <li><strong>Process:</strong> Washed, Honey, Natural</li>
+                <li><strong>Altitude:</strong> 1,200–1,600 MASL</li>
+                <li><strong>Harvest:</strong> Oct–Mar / Jun–Sep</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Aceh Gayo') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+
+          <article class="origin-card" style="--origin-color: #6b4423">
+            <div class="origin-image">
+              <img
+                src="https://images.unsplash.com/photo-1497515114629-f71d768fd07c?auto=format&fit=crop&w=800&q=80"
+                alt="Sumatra Mandheling coffee"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Sumatra</span>
+              <h3>Mandheling & Lintong</h3>
+              <p>
+                Earthy, full-bodied coffees with low acidity. Wet-hulled process
+                creates signature herbal, spice, and dark chocolate notes.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> Typica, Catimor, Ateng</li>
+                <li><strong>Process:</strong> Wet-Hulled (Giling Basah)</li>
+                <li><strong>Altitude:</strong> 1,100–1,500 MASL</li>
+                <li><strong>Harvest:</strong> Oct–Mar</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Sumatra') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+
+          <article class="origin-card" style="--origin-color: #a67c52">
+            <div class="origin-image">
+              <img
+                src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80"
+                alt="Java coffee plantations"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Java</span>
+              <h3>Java Preanger & Ijen</h3>
+              <p>
+                Classic Indonesian profile — heavy body, low acidity, with notes
+                of molasses, tobacco, and cedar. Estate-grown on historic
+                plantations.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> Typica, USDA 762, S-795</li>
+                <li><strong>Process:</strong> Washed, Natural</li>
+                <li><strong>Altitude:</strong> 900–1,400 MASL</li>
+                <li><strong>Harvest:</strong> Jun–Sep</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Java') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+
+          <article class="origin-card" style="--origin-color: #5d734a">
+            <div class="origin-image">
+              <img
+                src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80"
+                alt="Sulawesi Toraja coffee"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Sulawesi</span>
+              <h3>Toraja & Kalosi</h3>
+              <p>
+                Complex, multi-dimensional cups with bright acidity, ripe fruit
+                notes, and a distinctive clean finish. Smallholder farms.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> S-795, Typica, Catimor</li>
+                <li><strong>Process:</strong> Washed, Wet-Hulled</li>
+                <li><strong>Altitude:</strong> 1,200–1,800 MASL</li>
+                <li><strong>Harvest:</strong> May–Sep</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Sulawesi') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+
+          <article class="origin-card" style="--origin-color: #c49a2a">
+            <div class="origin-image">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsmW8_IfXF8VT2_NhD1JQA4lgwz6YIl4NZh0CpjQb-Fw&s=10"
+                alt="Bali Kintamani coffee"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Bali</span>
+              <h3>Kintamani Highlands</h3>
+              <p>
+                Bright, citrusy Arabica grown in volcanic soil near Mt. Batur.
+                Subak irrigation system creates unique terroir expression.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> S-795, Kartika, USDA 762</li>
+                <li><strong>Process:</strong> Washed, Honey</li>
+                <li><strong>Altitude:</strong> 900–1,300 MASL</li>
+                <li><strong>Harvest:</strong> May–Oct</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Bali') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+
+          <article class="origin-card" style="--origin-color: #9b7a63">
+            <div class="origin-image">
+              <img
+                src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=800&q=80"
+                alt="Flores Bajawa coffee"
+                loading="lazy"
+              />
+            </div>
+            <div class="origin-content">
+              <span class="origin-badge">Flores</span>
+              <h3>Bajawa & Manggarai</h3>
+              <p>
+                Emerging specialty region with floral aromatics, stone fruit
+                sweetness, and lingering finish. Small-scale organic farming.
+              </p>
+              <ul class="origin-specs">
+                <li><strong>Varieties:</strong> S-795, Catimor, Typica</li>
+                <li><strong>Process:</strong> Washed, Natural</li>
+                <li><strong>Altitude:</strong> 1,000–1,600 MASL</li>
+                <li><strong>Harvest:</strong> May–Sep</li>
+              </ul>
+              <a
+                href="{{ url_for('marketplace', origin='Flores') }}"
+                class="btn btn-outline btn-sm"
+                >View Coffees →</a
+              >
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works" aria-labelledby="howTitle">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">FOR BUYERS</span>
+          <h2 id="howTitle">Source Coffee in 4 Simple Steps</h2>
+          <p class="section-description">
+            From discovery to delivery — we handle the complexity so you can
+            focus on roasting exceptional coffee.
+          </p>
+        </div>
+        <div class="steps-grid">
+          <article class="step">
+            <div class="step-number">01</div>
+            <div class="step-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </div>
+            <h3>Discover & Compare</h3>
+            <p>
+              Browse curated lots with detailed specifications — origin,
+              variety, process, grade, cupping scores, and real-time
+              availability.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">02</div>
+            <div class="step-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
+            </div>
+            <h3>Inquire & Negotiate</h3>
+            <p>
+              Send inquiries directly to farmers. Request samples, discuss
+              certifications, negotiate terms, and manage conversations in one
+              place.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">03</div>
+            <div class="step-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+                />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            <h3>Place Orders</h3>
+            <p>
+              Create purchase orders with volume pricing, Incoterms, shipment
+              timelines, and quality specifications. Automatic contract
+              generation.
+            </p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">04</div>
+            <div class="step-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                />
+                <circle cx="8" cy="16" r="1" />
+                <circle cx="18" cy="16" r="1" />
+              </svg>
+            </div>
+            <h3>Track & Receive</h3>
+            <p>
+              Monitor shipments from farm gate to your warehouse. Real-time
+              vessel tracking, document management, and delivery confirmation.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- For Farmers Section -->
+    <section class="for-farmers" aria-labelledby="farmersTitle">
+      <div class="container">
+        <div class="farmers-content">
+          <div class="farmers-text">
+            <span class="eyebrow">FOR FARMERS</span>
+            <h2 id="farmersTitle">Grow Your Business Globally</h2>
+            <p>
+              CoffeeLink gives Indonesian farmers direct access to international
+              buyers — no intermediaries, fair prices, and full control.
+            </p>
+            <ul class="farmers-benefits">
+              <li>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>List your coffees with professional specifications</span>
+              </li>
+              <li>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>Set your own prices and minimum order quantities</span>
+              </li>
+              <li>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>Manage inventory, harvests, and certifications</span>
+              </li>
+              <li>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span
+                  >Receive inquiries and negotiate directly with buyers</span
+                >
+              </li>
+              <li>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>Track shipments and payments in real-time</span>
+              </li>
+            </ul>
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg"
+              >Join as a Farmer</a
+            >
+          </div>
+          <div class="farmers-visual" aria-hidden="true">
+            <img
+              src="https://emerhub.com/_next/image/?url=https%3A%2F%2Fhugkgsfefnisaqszirfq.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fmedia%2Fwp-imported%2FEmerhub-Bali_Bali-coffee-farm-scaled.jpg&w=3840&q=75"
+              alt="Indonesian coffee farmer inspecting beans"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" aria-labelledby="testimonialsTitle">
+      <div class="container">
+        <div class="section-header">
+          <span class="eyebrow">TRUSTED BY PROFESSIONALS</span>
+          <h2 id="testimonialsTitle">What Our Partners Say</h2>
+        </div>
+        <div class="testimonials-grid">
+          <article class="testimonial-card">
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <p class="testimonial-text">
+              "CoffeeLink transformed how we source Indonesian coffee. The
+              traceability data and direct farmer relationships have elevated
+              our offerings significantly."
+            </p>
+            <div class="testimonial-author">
+              <div class="avatar">AJ</div>
+              <div>
+                <strong>Anna Jensen</strong>
+                <span>Head of Green Coffee, Nordic Coffee Trading</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <p class="testimonial-text">
+              "Finally, a platform that understands specialty coffee. The
+              cupping scores, processing details, and harvest data are exactly
+              what we need for purchasing decisions."
+            </p>
+            <div class="testimonial-author">
+              <div class="avatar">MC</div>
+              <div>
+                <strong>Marcus Chen</strong>
+                <span>Green Buyer, Blue Bottle Coffee</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="testimonial-rating" aria-label="5 out of 5 stars">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <p class="testimonial-text">
+              "As a farmer, CoffeeLink gave us access to buyers we never could
+              reach before. We set our prices, show our quality, and build
+              long-term relationships."
+            </p>
+            <div class="testimonial-author">
+              <div class="avatar">BS</div>
+              <div>
+                <strong>Budi Santoso</strong>
+                <span>Farmer, Sukamakmur, West Java</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" aria-labelledby="ctaTitle">
+      <div class="container">
+        <div class="cta-content">
+          <h2 id="ctaTitle">Ready to Source Exceptional Indonesian Coffee?</h2>
+          <p>
+            Join 200+ specialty roasters and importers discovering Indonesia's
+            finest coffees.
+          </p>
+          <div class="cta-actions">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg"
+              >Create Free Account</a
+            >
+            <a
+              href="{{ url_for('marketplace') }}"
+              class="btn btn-outline btn-lg"
+              >Browse Marketplace</a
+            >
+          </div>
+          <p class="cta-note">
+            No credit card required · Free for buyers · Transparent pricing for
+            farmers
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/" class="nav-brand">
+              <span class="brand-mark" aria-hidden="true">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M17 8h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h1"
+                  />
+                  <path d="M9 2v8" />
+                  <path d="M15 2v8" />
+                  <path d="M8 16a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2" />
+                  <line x1="12" y1="2" x2="12" y2="22" />
+                </svg>
+              </span>
+              <span>CoffeeLink</span>
+            </a>
+            <p>
+              Connecting Indonesian coffee farmers with the global specialty
+              market. Built on trust, transparency, and exceptional quality.
+            </p>
+          </div>
+
+          <nav class="footer-nav" aria-label="Product links">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
+              <li><a href="#origins">Origins</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#">Pricing</a></li>
+            </ul>
+          </nav>
+
+          <nav class="footer-nav" aria-label="Company links">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </nav>
+
+          <nav class="footer-nav" aria-label="Resources links">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">API Docs</a></li>
+              <li><a href="#">Community</a></li>
+              <li><a href="#">Status</a></li>
+            </ul>
+          </nav>
+
+          <nav class="footer-nav" aria-label="Legal links">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Trade Compliance</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <p>
+            &copy; <span id="currentYear"></span> CoffeeLink. All rights
+            reserved.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter"
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+                /></svg
+            ></a>
+            <a href="#" aria-label="LinkedIn"
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" /></svg
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg
+            ></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Counter animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const counters = document.querySelectorAll("[data-count]");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.dataset.count);
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const update = () => {
+                  current += step;
+                  if (current < target) {
+                    counter.textContent = Math.floor(current).toLocaleString();
+                    requestAnimationFrame(update);
+                  } else {
+                    counter.textContent = target.toLocaleString();
+                  }
+                };
+                update();
+                observer.unobserve(counter);
+              }
+            });
+          },
+          { threshold: 0.5 },
+        );
+
+        counters.forEach((counter) => observer.observe(counter));
+
+        // Current year
+        document.getElementById("currentYear").textContent =
+          new Date().getFullYear();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
